@@ -11,11 +11,11 @@ args = commandArgs(trailingOnly=TRUE)
 if (length(args)<3) {
   stop("Three files must must be supplied (ids table, taxa table, and modules abundance table).\n", call.=FALSE)
 }
-if (length(args)<4) {
+if (length(args)<5) {
   print('Warning! Outputs will be written in the current directory')
   args[4] = getwd()
 }
-if (length(args) == 4) {
+if (length(args) == 5) {
   print('Outputs will be written into provided output')
 }
 
@@ -41,7 +41,8 @@ MODULE <- MODULE[, colnames(MODULE)%in% colnames(ids)]
 MODULE <- MODULE[, order(colnames(MODULE))]
 M_d <- dim(MODULE)
 
-metadata <- read.table( '/Users/rah/Documents/American_Gut_Info/ag-precomputed-rounds-1-21/fecal/100nt/all_participants/all_samples/10k/ag_10k_fecal.txt', header = TRUE, row.names = 1, sep = "\t", fill = FALSE, quote="", comment.char = "" , check.names = FALSE)
+#metadata <- read.table( '/Users/rah/Documents/American_Gut_Info/ag-precomputed-rounds-1-21/fecal/100nt/all_participants/all_samples/10k/ag_10k_fecal.txt', header = TRUE, row.names = 1, sep = "\t", fill = FALSE, quote="", comment.char = "" , check.names = FALSE)
+metadata <- read.table(args[4] , header = TRUE, row.names = 1, sep = "\t", fill = FALSE, quote="", comment.char = "" , check.names = FALSE)
 
 #metadata <- metadata[!(as.numeric(metadata[,'AGE_CORRECTED']) < 3 && as.numeric(metadata[,'WEIGHT_KG']) > 18 && as.numeric(metadata[,'HEIGHT_CM'] > 91)) ] #   m[m[, "three")] 
 
@@ -178,8 +179,8 @@ for (i in 1:d[2]){
 metadata.Module['BMI',] <- as.double(metadata.Module['BMI',])
 
 #'/Users/rah/Documents/American_Gut_Info/New_data
-write.table(metadata.OTU, paste(args[4],"/OTU.pcl", sep=""), sep = "\t", eol = "\n", col.names = NA, row.names = T)
-write.table(metadata.Module, paste(args[4],"/MODULE.pcl", sep=""), sep = "\t", eol = "\n", col.names = NA, row.names = T)
+write.table(metadata.OTU, paste(args[5],"/OTU.pcl", sep=""), sep = "\t", eol = "\n", col.names = NA, row.names = T)
+write.table(metadata.Module, paste(args[5],"/MODULE.pcl", sep=""), sep = "\t", eol = "\n", col.names = NA, row.names = T)
 
 
 #write.table(t(metadata.Module), '/Users/rah/Documents/American_Gut_Info/New_data/MODULE_HUMAnN2.tsv', sep = "\t", eol = "\n", col.names = NA, row.names = T)

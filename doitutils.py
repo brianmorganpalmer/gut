@@ -21,7 +21,7 @@ c_default_alias = {
 }
 
 # ---------------------------------------------------------------
-# helper functions
+# task helper functions
 # ---------------------------------------------------------------
 
 def mkdirs( *targets ):
@@ -71,8 +71,8 @@ def dodict( action, alias=None, name=None, always=False, clean=False ):
             print >>sys.stderr, "warning, default alias overwrite:", old, alias[old], "<--", new
         alias[old] = new
     action = action.format( **alias )
-    cstrings["action_formatted"] = action
     # process file deps
+    cstrings["action_formatted"] = action
     file_dep = []
     for match in re.finditer( "([Dd]):(.*?)(\s|$)", action ):
         flag, item, other = match.groups( )
@@ -108,3 +108,27 @@ def dodict( action, alias=None, name=None, always=False, clean=False ):
         doitdict["name"] = name
     # return task dictionary
     return doitdict
+
+# ---------------------------------------------------------------
+# other helper functions
+# ---------------------------------------------------------------
+
+def check( command, expect, local=False ):
+    try:
+        result = subprocess.check_output( 
+            command,
+            stderr=subprocess.STDOUT,
+            shell=True,
+            )
+    except:
+        sys.exit( "Check failed: '{}'\n\tCould not evaluate.".format( command ) )
+    if not local and result.strip() != expect:
+        sys.exit( "Check failed: '{}'\n\tExpected:'{}'\n\tObserved:'{}'".format( 
+                command, expect, result ) )
+    elif local:
+        for line in result.split( "\t" ):
+            if expect in result:
+                break
+            else:
+                sys.exit( "Check failed: '{}' not in STDOUT for '{}'".format( 
+                        expect, command ) )
