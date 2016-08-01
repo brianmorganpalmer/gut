@@ -1,11 +1,29 @@
-library(Maaslin)
-library(gamlss)
-library(grid)
+#!/usr/bin/env Rscript
+args = commandArgs(trailingOnly=TRUE)
+
+#library(Maaslin)
+#library(gamlss)
+#library(grid)
 library('pheatmap')
 
-maaslin_heatmap(title ="Metabolomic Modules vs Metadata ", maaslin_output='../ouput/MODULE/MODULE.txt', data_label = "Module Pathways")
-maaslin_heatmap(title ="OTUs vs Metadata ", maaslin_output='../ouput/OTU/OTU.txt', data_label = "OTUs")
-graphics.off()
+
+
+source('/Users/rah/Documents/Hutlab/american_gut/utils/r_utils.R')
+#print(args[1])
+#output_path = paste(args[3],"/MODULE.pdf", sep="")
+#print(output_path)
+#maaslin_heatmap(title ="Metabolomic Modules vs Metadata ", maaslin_output=args[1], 
+#                output_file=output_path, cell_value ="Q.value", data_label = "Module Pathways")
+#print("Hello2")
+#output_path = paste(args[3],"/OTU.pdf", sep="")
+
+maaslin_heatmap(title = "Metadata vs. OTUs",  output_file='./output/OTU.pdf',
+                maaslin_output='./output/MODULE/MODULE.txt', cell_value ="Q.value", data_label = "Pathways")
+
+maaslin_heatmap(title = "Metadata vs. Metabolomic Modules",  output_file='./output/MODULE.pdf',
+                maaslin_output='./output/MODULE/MODULE.txt', cell_value ="Q.value", data_label = "Pathways")
+
+
 
 
 

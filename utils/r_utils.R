@@ -48,7 +48,7 @@ maaslin_heatmap <- function(maaslin_output, output_file = "pheatmap.pdf", title 
   
   colnames(a) <-  sapply(colnames(a), pcl.sub )
   
-  pdf(file=output_file, height = length(colnames(a))/5+8, width = length(rownames(a))/5+5)
+  pdf(file=output_file, height = length(rownames(a))/5+7, width = length(colnames(a))/5+1)
   
   pheatmap(a, cellwidth = NA, cellheight = NA,   # changed to 3
             main = title,

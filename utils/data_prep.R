@@ -4,9 +4,6 @@ args = commandArgs(trailingOnly=TRUE)
 # This script gets the ids of samples , OTU table and Module abundance table and
 # genertes two clean tables of OTU and Modules as input for MaAsLin
 
-#library(Maaslin)
-#library(gamlss)
-#example(Maaslin)
 
 if (length(args)<3) {
   stop("Three files must must be supplied (ids table, taxa table, and modules abundance table).\n", call.=FALSE)
@@ -18,20 +15,17 @@ if (length(args)<5) {
 if (length(args) == 5) {
   print('Outputs will be written into provided output')
 }
-
-#ids <- read.table( '/Users/rah/Documents/American_Gut_Info/ag-precomputed-rounds-1-21/fecal/single_ids_10k.txt', header = TRUE, row.names = 1,sep = "\t", fill = FALSE, comment.char = "" , check.names = FALSE)
 ids <- read.table( args[1], header = TRUE, row.names = 1,sep = "\t", fill = FALSE, comment.char = "" , check.names = FALSE)
 ids <- t(ids)
 
-#OTU <- read.table( '/Users/rah/Documents/American_Gut_Info/AG_tax/summed_AG.txt', header = TRUE, row.names = 1, sep = "\t", fill = FALSE, comment.char = "" , check.names = FALSE)
 OTU <- read.table( args[2], header = TRUE, row.names = 1, sep = "\t", fill = FALSE, comment.char = "" , check.names = FALSE)
 print ('OTU table dimension:')
 dim(OTU)
 
-#MODULE <- read.table( '/Users/rah/Documents/American_Gut_Info/New_data/ag_module_humann2_pathabundance.tsv', header = TRUE, row.names = 1, sep = "\t", fill = FALSE, comment.char = "" , check.names = FALSE)
 MODULE <- read.table( args[3], header = TRUE, row.names = 1, sep = "\t", fill = FALSE, comment.char = "" , check.names = FALSE)
 print ("Module table dimension:")
 dim(MODULE)
+
 
 # colnames(MODULE) <- gsub("-hit-keg-mpm-cop-nul-nve-nve", "", colnames(MODULE)) 04b-hit-keg-mpm-cop-nul-nve-nve.txt
 colnames(MODULE) <- gsub("_Abundance", "", colnames(MODULE))
@@ -41,7 +35,7 @@ MODULE <- MODULE[, colnames(MODULE)%in% colnames(ids)]
 MODULE <- MODULE[, order(colnames(MODULE))]
 M_d <- dim(MODULE)
 
-#metadata <- read.table( '/Users/rah/Documents/American_Gut_Info/ag-precomputed-rounds-1-21/fecal/100nt/all_participants/all_samples/10k/ag_10k_fecal.txt', header = TRUE, row.names = 1, sep = "\t", fill = FALSE, quote="", comment.char = "" , check.names = FALSE)
+#American_Gut_Info/ag-precomputed-rounds-1-21/fecal/100nt/all_participants/all_samples/10k/ag_10k_fecal.txt
 metadata <- read.table(args[4] , header = TRUE, row.names = 1, sep = "\t", fill = FALSE, quote="", comment.char = "" , check.names = FALSE)
 
 #metadata <- metadata[!(as.numeric(metadata[,'AGE_CORRECTED']) < 3 && as.numeric(metadata[,'WEIGHT_KG']) > 18 && as.numeric(metadata[,'HEIGHT_CM'] > 91)) ] #   m[m[, "three")] 
@@ -92,7 +86,6 @@ metadata.OTU['BMI',] <- as.double(metadata.OTU['BMI',])
 #as.double(metadata.OTU['BMI',])
 #metadata.OTU['BMI',]
 #dim(metadata.OTU)
-
 d <- dim(metadata.Module)
 for (i in 1:d[1])
   for (j in 1:d[2]){
@@ -163,7 +156,6 @@ for (i in 1:d[2]){
   }
 }
 
-
 for (i in 1:d[2]){
   if (metadata.Module['IBD',i] != "")
     if (metadata.Module['IBD',i] == "Diagnosed by an alternative medicine practitione"
@@ -178,12 +170,35 @@ for (i in 1:d[2]){
 }
 metadata.Module['BMI',] <- as.double(metadata.Module['BMI',])
 
+# substitute special characters 
+## Modules
+x <- rownames(metadata.Module)
+x <- gsub(": ", "_", x)
+x <- gsub("[:;:]", "_", x)
+x <- gsub("[:.:]", "_", x)
+x <- gsub("__", "_", x)
+rownames(metadata.Module) <- x
+y <- colnames(metadata.Module)
+y <- gsub("[:.:]", "_", y)
+colnames(metadata.Module) <- y
+
+## OTUs
+x <- rownames(metadata.OTU)
+x <- gsub(": ", "_", x)
+x <- gsub("[:.:]", "_", x)
+x <- gsub("[:;:]", "_", x)
+x <- gsub("__", "_", x)
+rownames(metadata.OTU) <- x
+y <- colnames(metadata.OTU)
+y <- gsub("[:.:]", "_", y)
+colnames(metadata.OTU) <- y
+
+
 #'/Users/rah/Documents/American_Gut_Info/New_data
-write.table(metadata.OTU, paste(args[5],"/OTU.pcl", sep=""), sep = "\t", eol = "\n", col.names = NA, row.names = T)
-write.table(metadata.Module, paste(args[5],"/MODULE.pcl", sep=""), sep = "\t", eol = "\n", col.names = NA, row.names = T)
+write.table(data.frame("SAMPLE_ID"=rownames(t(metadata.Module)),t(metadata.Module)), row.names=FALSE, paste(args[5],"/MODULE.tsv", sep=""), sep = "\t", eol = "\n",quote=F)
 
-
-#write.table(t(metadata.Module), '/Users/rah/Documents/American_Gut_Info/New_data/MODULE_HUMAnN2.tsv', sep = "\t", eol = "\n", col.names = NA, row.names = T)
+write.table(data.frame("SAMPLE_ID"=rownames(t(metadata.OTU)),t(metadata.OTU)), row.names=FALSE, paste(args[5],"/OTU.tsv", sep=""), sep = "\t", eol = "\n",quote=F)
+            #sep = "\t", eol = "\n",quote=F, col.names = NA, row.names = T)
 
 #Maaslin('/Users/rah/Documents/American_Gut_Info/New_data/OTU.tsv','/Users/rah/Documents/American_Gut_Info/Version4/OTU_ZI',
 #        strInputConfig='/Users/rah/Documents/American_Gut_Info/scripts/input.read.config.otu')#, fZeroInflated = TRUE)
