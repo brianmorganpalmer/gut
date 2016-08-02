@@ -9,9 +9,10 @@ This is a pipeline for American Gut Project Analysis.
  
 
 ## Requirements ##
+* [HUMAnN2](http://huttenhower.sph.harvard.edu/humann2)
 * macqiime
 * R with maaslin, gamlss, and pheatmap packages
-* MaAsLin
+* [MaAsLin] (https://bitbucket.org/biobakery/maaslin)
 
 ## Input data ##
 Four main files that should be located in the input directory and and their names 
