@@ -28,7 +28,7 @@ should be set in alias section of the dodo file are:
 ## How to run ##
 Download the american_gut repository from [Download](https://bitbucket.org/biobakery/american_gut/get/e650c8340d50.zip)
 
-``$cd biobakery-american_gut_XXX (replace XXX by the newest version)
+``$cd biobakery-american_gut_XXX (replace XXX by the newest version)``
 
 ``$macqiime``
 
