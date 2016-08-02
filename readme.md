@@ -10,10 +10,9 @@ This is a pipeline for American Gut Project Analysis.
 
 ## Requirements ##
 * [HUMAnN2](http://huttenhower.sph.harvard.edu/humann2)
-* macqiime
 * R with maaslin, gamlss, and pheatmap packages
-* [MaAsLin] (https://bitbucket.org/biobakery/maaslin)
-
+* [MaAsLin](https://bitbucket.org/biobakery/maaslin)
+* [macqiime](http://www.wernerlab.org/software/macqiime/macqiime-installation)
 ## Input data ##
 Four main files that should be located in the input directory and and their names 
 should be set in alias section of the dodo file are:
