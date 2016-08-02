@@ -26,6 +26,7 @@ should be set in alias section of the dodo file are:
 * METADATA as a text file  
 
 ## How to run ##
+Download the american_gut repository from[Download](https://bitbucket.org/biobakery/american_gut/get/e650c8340d50.zip)
 ``$macqiime``
 
 ``$doit``
