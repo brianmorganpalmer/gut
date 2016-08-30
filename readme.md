@@ -10,6 +10,7 @@ This is a pipeline for American Gut Project Analysis.
 
 ## Requirements ##
 * [HUMAnN2](http://huttenhower.sph.harvard.edu/humann2)
+* [HAllA](http://huttenhower.sph.harvard.edu/halla)
 * R with maaslin, gamlss, and pheatmap packages
 * [MaAsLin](https://bitbucket.org/biobakery/maaslin)
 * [macqiime](http://www.wernerlab.org/software/macqiime/macqiime-installation)
