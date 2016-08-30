@@ -6,7 +6,7 @@ INPUTPATH="output/PICRUSt_OUTPUT"
 
 for file in $INPUTPATH/*.biom
 do
-	FILE_NAME=$(basename $file .tsv)
+	FILE_NAME=$(basename $file .biom)
         if [ -f output/PICRUSt_MODULE/${FILE_NAME}_pathcoverage.tsv ];
         then
                 #stat /n/regal/huttenhower_lab/grahnavard/HMP1II/humann2_output/${FILE_NAME}/${FILE_NAME}_pathcoverage.tsv
