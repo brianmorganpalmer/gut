@@ -34,7 +34,6 @@ alias = {
 # ---------------------------------------------------------------
 # tasks: humann2 runs for getting metabolomic modules
 # ---------------------------------------------------------------
-'''
 def task_load_macqiime():
     return dodict(["echo \"!!!Please load macqiime in your terminal before doit if the next task fails!!!\""],clean=True, alias=alias)
 
@@ -89,12 +88,10 @@ def task_prepare_data_tables():
 # ---------------------------------------------------------------
 # tasks: association testing using MaAsLin 
 # ---------------------------------------------------------------
-'''
 def task_test_association():
     return dodict(["{MyR} CMD BATCH --vanila d:utils/test_associations.R"], alias=alias)
     #return dodict(["{MyR} CMD BATCH  --vanilla q:./utils/test_associations.R d:{OUTPUT}/MODULE.tsv",
     #               "d:{OUTPUT}/MODULE d:{INPUT}/maaslin_config/masslin_config_module.txt"], alias=alias)
-'''
 def task_test_association_HAllA_OTU():
     return dodict(["halla -X d:{OUTPUT}/HAllA_Metadata.tsv -Y d:{OUTPUT}/HAllA_OTU.tsv",
                    " -o t:{OUTPUT}/HAllA_OUTPUT_OTU -q .05",
@@ -109,7 +106,6 @@ def task_test_association_HAllA_MODULE():
 # ---------------------------------------------------------------
 # tasks: Plot results
 # ---------------------------------------------------------------
-'''
 def task_plot_association():
     return dodict(["{MyR} CMD BATCH --vanila d:utils/plot.R" ],alias=alias )
 '''       
