@@ -15,6 +15,5 @@ Maaslin('/Users/rah/Documents/Hutlab/american_gut/output/MODULE.tsv', '/Users/ra
 Maaslin('/Users/rah/Documents/Hutlab/american_gut/output/OTU.tsv', '/Users/rah/Documents/Hutlab/american_gut/output/OTU',
         strInputConfig='/Users/rah/Documents/Hutlab/american_gut/input/maaslin_config/maaslin_config_otu.txt', dSignificanceLevel =.1)#, fZeroInflated = TRUE
 
-
 for(i in 1: length(dev.list()))
   dev.off()

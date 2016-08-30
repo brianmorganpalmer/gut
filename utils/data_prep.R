@@ -101,7 +101,7 @@ metadata['BMI',] <- as.double(metadata['BMI',])
 d <- dim(metadata)
 for (i in 1:d[1])
   for (j in 1:d[2]){
-    print(metadata[i,j])
+    #print(metadata[i,j])
     if ( metadata[i,j] == "Unknown" || is.na(metadata[i,j])){
       metadata[i,j] <- ""
     }
