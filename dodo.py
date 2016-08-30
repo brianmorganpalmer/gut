@@ -3,6 +3,7 @@ from doitutils import dodict, check
 # ---------------------------------------------------------------
 # Requirements:
 ## HUMAnN2 >= 8.0
+## HAllA >= 0.6.14
 ## R with maaslin, gamlss, and pheatmap packages
 ## Macqiime
 # ---------------------------------------------------------------
@@ -14,6 +15,7 @@ from doitutils import dodict, check
 # ---------------------------------------------------------------
 
 check("humann2 --version", "humann2", local=True)
+check("halla --version", "halla", local=True)
 #check("macqiime --version", "MacQIIME", local=True)
 
 # ---------------------------------------------------------------
@@ -32,6 +34,9 @@ alias = {
 # ---------------------------------------------------------------
 # tasks: humann2 runs for getting metabolomic modules
 # ---------------------------------------------------------------
+'''
+def task_load_macqiime():
+    return dodict(["echo \"!!!Please load macqiime in your terminal before doit if the next task fails!!!\""],clean=True, alias=alias)
 
 def task_split_kegg_biom():
     return dodict(["humann2_split_table --input", 
@@ -41,7 +46,7 @@ def task_humann2_get_modules():
     return dodict(["sh utils/run_humann2.sh","--input", 
                     "D:{OUTPUT}/PICRUSt_OUTPUT",
                     "--output", "T:{OUTPUT}/PICRUSt_MODULE"], clean=True, alias=alias) 
- #   
+ # 
 def task_humann2_join_modules(): 
     return dodict(["humann2_join_tables --input D:{OUTPUT}/PICRUSt_MODULE --output",
                    "t:{OUTPUT}/humann2_pathabundance.tsv --file_name pathabundance"], alias=alias)  
@@ -71,12 +76,11 @@ def task_merge_otu_tables():
 def task_convert_biom2tsv():
     return dodict(["biom convert -i d:{OUTPUT}/summed_AG.biom",
                    "-o t:{OUTPUT}/summed_AG.txt --table-type=\"OTU table\" --to-tsv"], alias=alias)
-
+'''
 # ---------------------------------------------------------------
 # tasks: data cleaning and formatting for MaAsLin runs
 # ---------------------------------------------------------------
-
-def task_prepare_metadata_OTU_and_metadata_Module_tables():
+def task_prepare_data_tables():
     return dodict(["Rscript --vanilla d:./utils/data_prep.R d:{INPUT}/{SAMPLE_IDS}",
                    "d:{OUTPUT}/summed_AG.txt d:{OUTPUT}/humann2_pathabundance_names.tsv",
                    "d:{INPUT}/{METADATA} t:{OUTPUT}"], alias=alias)
@@ -90,7 +94,16 @@ def task_test_association():
     return dodict(["{MyR} CMD BATCH --vanila utils/test_associations.R"], alias=alias)
     #return dodict(["{MyR} CMD BATCH  --vanilla q:./utils/test_associations.R d:{OUTPUT}/MODULE.tsv",
     #               "d:{OUTPUT}/MODULE d:{INPUT}/maaslin_config/masslin_config_module.txt"], alias=alias)
-
+def task_test_association_HAllA_OTU():
+    return dodict(["halla -X d:{OUTPUT}/HAllA_Metadata.tsv -Y d:{OUTPUT}/HAllA_OTU.tsv",
+                   " -o t:{OUTPUT}/HAllA_OUTPUT_OTU -q .05",
+                   " --header --diagnostics-plot"], alias=alias)
+    
+def task_test_association_HAllA_MODULE():
+    return dodict(["halla -X d:{OUTPUT}/HAllA_Metadata.tsv -Y d:{OUTPUT}/HAllA_Module.tsv",
+                    "-o t:{OUTPUT}/HAllA_OUTPUT_Module -q .05",
+                   " --header --diagnostics-plot"], alias=alias)
+    
 
 # ---------------------------------------------------------------
 # tasks: Plot results
@@ -98,8 +111,8 @@ def task_test_association():
 
 def task_plot_association():
     return dodict(["{MyR} CMD BATCH --vanila utils/plot.R" ],alias=alias )
-       
+'''       
 def task_plot_GraPhlAn():
     return dodict(["echo \"Plot Graphlan should be implemented here \" " ],alias=alias )
-         
+'''         
         
