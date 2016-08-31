@@ -22,7 +22,6 @@ check("halla --version", "halla", local=True)
 # alias for paths and files
 # ---------------------------------------------------------------
 alias = {
-    "BASE" :"/Users/rah/Documents/Hutlab/american_gut/",     
     "INPUT": "input",
     "OUTPUT": "output",
     "PICRUSt_RESULT":"ag_10k_fecal_kegg.biom",
@@ -35,7 +34,6 @@ alias = {
 # ---------------------------------------------------------------
 # tasks: humann2 runs for getting metabolomic modules
 # ---------------------------------------------------------------
-'''
 def task_load_macqiime():
     return dodict(["echo \"!!!Please load macqiime in your terminal before doit if the next task fails!!!\""],clean=True, alias=alias)
 
@@ -77,7 +75,7 @@ def task_merge_otu_tables():
 def task_convert_biom2tsv():
     return dodict(["biom convert -i d:{OUTPUT}/summed_AG.biom",
                    "-o t:{OUTPUT}/summed_AG.txt --table-type=\"OTU table\" --to-tsv"], alias=alias)
-'''
+
 # ---------------------------------------------------------------
 # tasks: data cleaning and formatting for HAllA and MaAsLin runs
 # ---------------------------------------------------------------
@@ -114,7 +112,7 @@ def task_test_association_HAllA_MODULE():
 # ---------------------------------------------------------------
 def task_plot_MaAsLin_association():
     return dodict(["{MyR} CMD BATCH --vanila d:utils/plot.R" ],alias=alias )
-'''
+
 def task_plot_HAllA_OTU_association():
     return dodict(["hallagram {OUTPUT}/HAllA_OUTPUT_OTU/similarity_table.txt {OUTPUT}/HAllA_OUTPUT_OTU/hypotheses_tree.txt",
                    "{OUTPUT}/HAllA_OUTPUT_OTU/associations.txt",
@@ -126,6 +124,7 @@ def task_plot_HAllA_Module_association():
                    "{OUTPUT}/HAllA_OUTPUT_Module/associations.txt",
                    "--cmap Reds --outfile {OUTPUT}/HAllA_OUTPUT_Module/hallagram_strongest_50.pdf --strongest 50",
                    "--similarity NMI --axlabels \"Metadata\" \"Metabolomic pathway modules\"" ],alias=alias )
+'''
 def task_plot_GraPhlAn():
     return dodict(["echo \"Plot Graphlan should be implemented here \" " ],alias=alias )
 '''         

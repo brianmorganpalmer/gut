@@ -36,11 +36,21 @@ should be set in alias section of the dodo file are:
 
 Install all the dependencies 
 
-Download the american_gut repository from [Download](https://bitbucket.org/biobakery/american_gut/get/e650c8340d50.zip)
+Download the american_gut repository from [Download](https://bitbucket.org/biobakery/american_gut/downloads)
 
 Decompress the american_gut repository
 
 Download HUMAnN1 from [Download](https://bitbucket.org/biobakery/humann/downloads/humann-v0.99.tar.gz) and from ``./input/humann-0.99/data/`` copy KEGG pathways database ``keggc`` and KEGG modules database ``modulec`` under the repository into ``input/kegg_dbs/``. In a case, there is a new version of KEGG available then those file could be replaced by the new version.  
+
+Place the four input file and update the corresponding names in the alias section in the dodo.py file:
+``
+alias = {
+    "PICRUSt_RESULT":"ag_10k_fecal_kegg.biom",
+    "OTU_BIOM":"ag_10k_fecal.biom", 
+    "SAMPLE_IDS": "single_ids_10k.txt",
+    "METADATA":"ag_10k_fecal.txt",
+}
+``
 
 ``$cd biobakery-american_gut_XXX (replace XXX by the newest version)``
 
