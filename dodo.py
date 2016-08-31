@@ -22,6 +22,7 @@ check("halla --version", "halla", local=True)
 # alias for paths and files
 # ---------------------------------------------------------------
 alias = {
+    "BASE" :"/Users/rah/Documents/Hutlab/american_gut/",     
     "INPUT": "input",
     "OUTPUT": "output",
     "PICRUSt_RESULT":"ag_10k_fecal_kegg.biom",
@@ -34,20 +35,21 @@ alias = {
 # ---------------------------------------------------------------
 # tasks: humann2 runs for getting metabolomic modules
 # ---------------------------------------------------------------
+'''
 def task_load_macqiime():
     return dodict(["echo \"!!!Please load macqiime in your terminal before doit if the next task fails!!!\""],clean=True, alias=alias)
 
 def task_split_kegg_biom():
     return dodict(["humann2_split_table --input", 
-                   "d:{INPUT}/{PICRUSt_RESULT} --output T:{OUTPUT}/PICRUSt_OUTPUT"],clean=True, alias=alias)
+                   "d:{INPUT}/{PICRUSt_RESULT} --output T:{OUTPUT}/HUMAnN2_PICRUSt_OUTPUT"],clean=True, alias=alias)
      
 def task_humann2_get_modules():
     return dodict(["sh utils/run_humann2.sh","--input", 
-                    "D:{OUTPUT}/PICRUSt_OUTPUT",
-                    "--output", "T:{OUTPUT}/PICRUSt_MODULE"], clean=True, alias=alias) 
+                    "D:{OUTPUT}/HUMAnN2_PICRUSt_OUTPUT",
+                    "--output", "T:{OUTPUT}/HUMAnN2_PICRUSt_MODULE"], clean=True, alias=alias) 
  # 
 def task_humann2_join_modules(): 
-    return dodict(["humann2_join_tables --input D:{OUTPUT}/PICRUSt_MODULE --output",
+    return dodict(["humann2_join_tables --input D:{OUTPUT}/HUMAnN2_PICRUSt_MODULE --output",
                    "t:{OUTPUT}/humann2_pathabundance.tsv --file_name pathabundance"], alias=alias)  
 
 def task_humann2_rename_modules():
@@ -75,9 +77,9 @@ def task_merge_otu_tables():
 def task_convert_biom2tsv():
     return dodict(["biom convert -i d:{OUTPUT}/summed_AG.biom",
                    "-o t:{OUTPUT}/summed_AG.txt --table-type=\"OTU table\" --to-tsv"], alias=alias)
-
-s# ---------------------------------------------------------------
-# tasks: data cleaning and formatting for MaAsLin runs
+'''
+# ---------------------------------------------------------------
+# tasks: data cleaning and formatting for HAllA and MaAsLin runs
 # ---------------------------------------------------------------
 def task_prepare_data_tables():
     return dodict(["Rscript --vanilla d:./utils/data_prep.R d:{INPUT}/{SAMPLE_IDS}",
@@ -90,15 +92,19 @@ def task_prepare_data_tables():
 # ---------------------------------------------------------------
 def task_test_association():
     return dodict(["{MyR} CMD BATCH --vanila d:utils/test_associations.R"], alias=alias)
-    #return dodict(["{MyR} CMD BATCH  --vanilla q:./utils/test_associations.R d:{OUTPUT}/MODULE.tsv",
+    #return dodict(["{MyR} CMD BATCH  --vanilla d:./utils/test_associations.R d:{OUTPUT}/MODULE.tsv",
     #               "d:{OUTPUT}/MODULE d:{INPUT}/maaslin_config/masslin_config_module.txt"], alias=alias)
+
+# ---------------------------------------------------------------
+# tasks: association testing using HAllA 
+# ---------------------------------------------------------------
 def task_test_association_HAllA_OTU():
-    return dodict(["halla -X d:{OUTPUT}/HAllA_Metadata.tsv -Y d:{OUTPUT}/HAllA_OTU.tsv",
+    return dodict(["halla -X d:{OUTPUT}/HAllA_INPUT/HAllA_Metadata.tsv -Y d:{OUTPUT}/HAllA_INPUT/HAllA_OTU.tsv",
                    " -o t:{OUTPUT}/HAllA_OUTPUT_OTU -q .05",
                    " --header"], alias=alias)
     
 def task_test_association_HAllA_MODULE():
-    return dodict(["halla -X d:{OUTPUT}/HAllA_Metadata.tsv -Y d:{OUTPUT}/HAllA_Module.tsv",
+    return dodict(["halla -X d:{OUTPUT}/HAllA_INPUT/HAllA_Metadata.tsv -Y d:{OUTPUT}/HAllA_INPUT/HAllA_Module.tsv",
                     "-o t:{OUTPUT}/HAllA_OUTPUT_Module -q .05",
                    " --header"], alias=alias)
     
@@ -106,9 +112,20 @@ def task_test_association_HAllA_MODULE():
 # ---------------------------------------------------------------
 # tasks: Plot results
 # ---------------------------------------------------------------
-def task_plot_association():
+def task_plot_MaAsLin_association():
     return dodict(["{MyR} CMD BATCH --vanila d:utils/plot.R" ],alias=alias )
-'''       
+'''
+def task_plot_HAllA_OTU_association():
+    return dodict(["hallagram {OUTPUT}/HAllA_OUTPUT_OTU/similarity_table.txt {OUTPUT}/HAllA_OUTPUT_OTU/hypotheses_tree.txt",
+                   "{OUTPUT}/HAllA_OUTPUT_OTU/associations.txt",
+                   "--cmap Reds --outfile {OUTPUT}/HAllA_OUTPUT_OTU/hallagram_strongest_50.pdf --strongest 50",
+                   "--similarity NMI --axlabels \"Metadata\" \"OTU\"" ],alias=alias )
+
+def task_plot_HAllA_Module_association():
+    return dodict(["hallagram {OUTPUT}/HAllA_OUTPUT_Module/similarity_table.txt {OUTPUT}/HAllA_OUTPUT_Module/hypotheses_tree.txt",
+                   "{OUTPUT}/HAllA_OUTPUT_Module/associations.txt",
+                   "--cmap Reds --outfile {OUTPUT}/HAllA_OUTPUT_Module/hallagram_strongest_50.pdf --strongest 50",
+                   "--similarity NMI --axlabels \"Metadata\" \"Metabolomic pathway modules\"" ],alias=alias )
 def task_plot_GraPhlAn():
     return dodict(["echo \"Plot Graphlan should be implemented here \" " ],alias=alias )
 '''         
