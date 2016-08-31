@@ -40,9 +40,8 @@ Download the american_gut repository from [Download](https://bitbucket.org/bioba
 
 Decompress the american_gut repository
 
-Download HUMAnN1 from from [Download](https://bitbucket.org/biobakery/humann/downloads/humann-v0.99.tar.gz) and move it 
-under the ``input`` directory under repository after it's decompressed. This is used for its KEGG pathways database ``./input/humann-0.99/data/keggc`` 
-and its KEGG modules ``./input/humann-0.99/data/modulec`` . In a case, there is a new version of KEGG available then 
+Download HUMAnN1 from from [Download](https://bitbucket.org/biobakery/humann/downloads/humann-v0.99.tar.gz) and from ``./input/humann-0.99/data/`` copy KEGG pathways database ``keggc`` and 
+KEGG modules database ``modulec`` under the repository into ``input/kegg_dbs/``. In a case, there is a new version of KEGG available then 
 those file could be replaced by the new version.  
 
 ``$cd biobakery-american_gut_XXX (replace XXX by the newest version)``
