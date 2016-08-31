@@ -15,6 +15,7 @@ This is a pipeline for American Gut Project Analysis.
 * R with maaslin, gamlss, and pheatmap packages
 * [MaAsLin](https://bitbucket.org/biobakery/maaslin)
 * [macqiime](http://www.wernerlab.org/software/macqiime/macqiime-installation) for Mac OS or [QIIME](http://qiime.org) for Linux OS
+* [BIOM-Format](http://biom-format.org)
 
 ## Input data ##
 Four main files that should be located in the input directory and and their names 
@@ -54,9 +55,7 @@ alias = {
 * Run the DOIT command
 ``$cd biobakery-american_gut_XXX (replace XXX by the newest version)``
 
-If QIIME is configured under your machine path or if you use Linux OS the next step, running macqiime, could be skipped.
-
-``$macqiime``
+``$macqiime`` If QIIME is configured under your machine path or if you use Linux OS the next step, running macqiime, could be skipped.
 
 ``$doit``
 
