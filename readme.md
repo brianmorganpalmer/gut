@@ -42,7 +42,7 @@ Decompress the american_gut repository
 
 Download HUMAnN1 from [Download](https://bitbucket.org/biobakery/humann/downloads/humann-v0.99.tar.gz) and from ``./input/humann-0.99/data/`` copy KEGG pathways database ``keggc`` and KEGG modules database ``modulec`` under the repository into ``input/kegg_dbs/``. In a case, there is a new version of KEGG available then those file could be replaced by the new version.  
 
-Place the four input file and update the corresponding names in the alias section in the dodo.py file:
+Place the four input file under ``input`` and update the corresponding names in the alias section in the dodo.py file:
 ``
 alias = {
     "PICRUSt_RESULT":"ag_10k_fecal_kegg.biom",
