@@ -1,13 +1,14 @@
 
 MODULE_DATBASE=./input/kegg_dbs/modulec
 PATHWAY_DATABASE=./input/kegg_dbs/keggc
-INPUTPATH="output/PICRUSt_OUTPUT"
 
+INPUT=$1
+OUTPUT=$2
 
-for file in $INPUTPATH/*.biom
+for file in $INPUT/*.biom
 do
 	FILE_NAME=$(basename $file .biom)
-        if [ -f output/PICRUSt_MODULE/${FILE_NAME}_pathcoverage.tsv ];
+        if [ -f $OUTPUT/${FILE_NAME}_pathcoverage.tsv ];
         then
                 echo $FILE_NAME
                 continue
@@ -15,5 +16,5 @@ do
         fi 
 
 #Modules
-humann2 --input $file --output output/PICRUSt_MODULE --pathways-database $MODULE_DATBASE
+humann2 --input $file --output $OUTPUT --pathways-database $MODULE_DATBASE
 done
