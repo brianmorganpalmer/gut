@@ -22,7 +22,7 @@ if (length(args) == 5) {
 ids <- read.table( args[1], header = TRUE, row.names = 1,sep = "\t", fill = FALSE, comment.char = "" , check.names = FALSE)
 ids <- t(ids)
 
-OTU <- read.table( args[2], header = TRUE, row.names = 1, sep = "\t", fill = FALSE, comment.char = "" , check.names = FALSE)
+OTU <- read.table( args[2], header = TRUE, row.names = 1, sep = "\t", fill = FALSE, comment.char = "" , check.names = FALSE, skip=1)
 print ('OTU table dimension:')
 dim(OTU)
 
