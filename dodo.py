@@ -42,9 +42,9 @@ def task_split_kegg_biom():
                    "d:{INPUT}/{PICRUSt_RESULT} --output T:{OUTPUT}/HUMAnN2_PICRUSt_OUTPUT"],clean=True, alias=alias)
      
 def task_humann2_get_modules():
-    return dodict(["sh utils/run_humann2.sh","--input", 
+    return dodict(["sh utils/run_humann2.sh", 
                     "D:{OUTPUT}/HUMAnN2_PICRUSt_OUTPUT",
-                    "--output", "T:{OUTPUT}/HUMAnN2_PICRUSt_MODULE"], clean=True, alias=alias) 
+                    "T:{OUTPUT}/HUMAnN2_PICRUSt_MODULE"], clean=True, alias=alias) 
  # 
 def task_humann2_join_modules(): 
     return dodict(["humann2_join_tables --input D:{OUTPUT}/HUMAnN2_PICRUSt_MODULE --output",
