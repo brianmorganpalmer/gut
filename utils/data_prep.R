@@ -125,12 +125,6 @@ for (i in 1:d[2]){
       metadata['SEX', i] <- ""
 }
 
-for (i in 1:d[2]){
-  if (metadata['SEX',i] == "other")
-    metadata['SEX', i] <- ""
-}
-
-
 #Diabets
 for (i in 1:d[2]){
   if (metadata['DIABETES',i] != "")
