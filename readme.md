@@ -53,8 +53,8 @@ $ R CMD INSTALL Maaslin_0.0.4.tar.gz
 
     c. Copy the KEGG modules and pathways files to the american_gut input folder
 
-        $ cp humann-v0.99/data/keggc input/kegg_dbs/
-        $ cp humann-v0.99/data/modulec input/kegg_dbs/
+        $ cp humann-v0.99/data/keggc biobakery-american_gut/input/kegg_dbs/
+        $ cp humann-v0.99/data/modulec biobakery-american_gut/input/kegg_dbs/
 
 4. Place the four input files in the american_gut input folder and update the corresponding names in the alias section in the dodo.py file.
 
@@ -78,10 +78,10 @@ Two KEGG database files should also be added to the input directory:
 
 ## How to run ##
 
-1. Change directories into the american_gut folder: ``$ cd american_gut``
+1. Change directories into the american_gut folder: ``$ cd biobakery-american_gut``
 2. Run MacQIIME if on a Mac OS and QIIME is not in your system path (this step can be skipped for all other cases): `` $ macqiime``
 3. Run doit to start the workflow: ``$ doit``
 
 ## Output ##
 
-The current final outputs are HAllA, HUMAnN2, and MaAsLin output under output directory. The intermediate results are also under ``output`` directory.  
+The current final outputs are HAllA, HUMAnN2, and MaAsLin output under output directory. The intermediate results are also under ``output`` directory.
