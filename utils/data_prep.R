@@ -4,7 +4,11 @@ args[1]= './input/single_ids_10k.txt'
 args[2] = './output/summed_AG.txt'
 args[3] = './output/humann2_pathabundance_names.tsv'
 args[4] = './input/ag_10k_fecal.txt'
-args[5] = './output'
+args[5] = './output/HAllA_INPUT/HAllA_Metadata.tsv'
+args[6] = './output/HAllA_INPUT/HAllA_Module.tsv'
+args[7] = './output/HAllA_INPUT/HAllA_OTU.tsv'
+args[8] = './output/MaAsLin_INPUT/MODULE.tsv'
+args[9] = './output/MaAsLin_INPUT/OTU.tsv'
 # This script gets the ids of samples , OTU table and Module abundance table and
 # genertes two clean tables of OTU and Modules as input for MaAsLin
 
@@ -16,8 +20,8 @@ if (length(args)<5) {
   print('Warning! Outputs will be written in the current directory')
   args[4] = getwd()
 }
-if (length(args) == 5) {
-  print('Outputs will be written into provided output')
+if (length(args) == 9) {
+  print('Outputs will be written into provided output file location')
 }
 ids <- read.table( args[1], header = TRUE, row.names = 1,sep = "\t", fill = FALSE, comment.char = "" , check.names = FALSE)
 ids <- t(ids)
@@ -155,11 +159,11 @@ for (i in 1:d[2]){
 }
 
 # Creat a dirctory for HAllA input files
-dir.create(file.path(args[5], "HAllA_INPUT"), showWarnings = FALSE)
+dir.create(dirname(args[5]), showWarnings = FALSE)
 
-write.table(data.frame("SAMPLE_ID"=rownames(metadata),metadata), row.names=FALSE, paste(args[5],"/HAllA_INPUT/HAllA_Metadata.tsv", sep=""), sep = "\t", eol = "\n",quote=F)
-write.table(data.frame("SAMPLE_ID"=rownames(MODULE),MODULE), row.names=FALSE, paste(args[5],"/HAllA_INPUT/HAllA_Module.tsv", sep=""), sep = "\t", eol = "\n",quote=F)
-write.table(data.frame("SAMPLE_ID"=rownames(OTU),OTU), row.names=FALSE, paste(args[5],"/HAllA_INPUT/HAllA_OTU.tsv", sep=""), sep = "\t", eol = "\n",quote=F)
+write.table(data.frame("SAMPLE_ID"=rownames(metadata),metadata), row.names=FALSE, args[5], sep = "\t", eol = "\n",quote=F)
+write.table(data.frame("SAMPLE_ID"=rownames(MODULE),MODULE), row.names=FALSE, args[6], sep = "\t", eol = "\n",quote=F)
+write.table(data.frame("SAMPLE_ID"=rownames(OTU),OTU), row.names=FALSE, args[7], sep = "\t", eol = "\n",quote=F)
 
 
 metadata <- metadata[, order(colnames(metadata))]
@@ -167,9 +171,9 @@ metadata.OTU <- rbind(as.matrix(metadata),as.matrix(OTU))
 metadata.Module <- rbind(as.matrix(metadata),as.matrix(MODULE))
 
 # Creat a dirctory for MaAsLin input files
-dir.create(file.path(args[5], "MaAsLin_INPUT"), showWarnings = FALSE)
-write.table(data.frame("SAMPLE_ID"=rownames(t(metadata.Module)),t(metadata.Module)), row.names=FALSE, paste(args[5],"/MaAsLin_INPUT/MODULE.tsv", sep=""), sep = "\t", eol = "\n",quote=F)
-write.table(data.frame("SAMPLE_ID"=rownames(t(metadata.OTU)),t(metadata.OTU)), row.names=FALSE, paste(args[5],"/MaAsLin_INPUT/OTU.tsv", sep=""), sep = "\t", eol = "\n",quote=F)
+dir.create(dirname(args[8]), showWarnings = FALSE)
+write.table(data.frame("SAMPLE_ID"=rownames(t(metadata.Module)),t(metadata.Module)), row.names=FALSE, args[8], sep = "\t", eol = "\n",quote=F)
+write.table(data.frame("SAMPLE_ID"=rownames(t(metadata.OTU)),t(metadata.OTU)), row.names=FALSE, args[9], sep = "\t", eol = "\n",quote=F)
             #sep = "\t", eol = "\n",quote=F, col.names = NA, row.names = T)
 
 
