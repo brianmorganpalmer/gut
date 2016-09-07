@@ -9,13 +9,31 @@ This is a pipeline for American Gut Project Analysis.
  
 
 ## Requirements ##
-* [DOIT](http://pydoit.org/install.html)
-* [HUMAnN2](http://huttenhower.sph.harvard.edu/humann2)
-* [HAllA](http://huttenhower.sph.harvard.edu/halla)
-* R with maaslin, gamlss, and pheatmap packages
-* [MaAsLin](https://bitbucket.org/biobakery/maaslin)
-* [macqiime](http://www.wernerlab.org/software/macqiime/macqiime-installation) for Mac OS or [QIIME](http://qiime.org) for Linux OS
-* [BIOM-Format](http://biom-format.org)
+
+1. [Python](https://www.python.org/)
+2. [R](https://www.r-project.org) 
+3. [DOIT](http://pydoit.org/install.html)
+4. [HUMAnN2](http://huttenhower.sph.harvard.edu/humann2)
+5. [HAllA](http://huttenhower.sph.harvard.edu/halla)
+6. [MaAsLin](https://bitbucket.org/biobakery/maaslin)
+7. pheatmap
+8. [macqiime](http://www.wernerlab.org/software/macqiime/macqiime-installation) for Mac OS or [QIIME](http://qiime.org) for Linux OS
+9. [BIOM-Format](http://biom-format.org)
+
+After installing R and Python, you can run the following commands to install the other dependencies.
+
+```
+$ pip install configparser==3.5.0b2
+$ pip install doit==0.29.0
+$ pip install numpy future matplotlib==1.4.3 mock nose h5py
+$ pip install humann2
+$ pip install halla
+$ pip install qiime
+$ pip install biom-format
+$ wget https://bitbucket.org/biobakery/maaslin/downloads/Maaslin_0.0.4.tar.gz
+$ R CMD INSTALL Maaslin_0.0.4.tar.gz
+$ R -e "install.packages(c('agricolae', 'gam', 'gamlss', 'gbm', 'glmnet', 'inlinedocs', 'logging', 'MASS', 'nlme', 'optparse', 'outliers', 'penalized', 'pscl', 'robustbase', 'pheatmap'), repos='http://cran.r-project.org')"
+```
 
 ## Input data ##
 Four main files that should be located in the input directory and and their names 
