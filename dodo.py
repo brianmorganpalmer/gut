@@ -81,8 +81,9 @@ def task_convert_biom2tsv():
 def task_prepare_data_tables():
     return dodict(["Rscript --vanilla d:./utils/data_prep.R d:{INPUT}/{SAMPLE_IDS}",
                    "d:{OUTPUT}/summed_AG.txt d:{OUTPUT}/humann2_pathabundance_names.tsv",
-                   "d:{INPUT}/{METADATA} t:{OUTPUT}"], alias=alias)
-
+                   "d:{INPUT}/{METADATA} t:{OUTPUT}/HAllA_INPUT/HAllA_Metadata.tsv",
+                   "t:{OUTPUT}/HAllA_INPUT/HAllA_Module.tsv t:{OUTPUT}/HAllA_INPUT/HAllA_OTU.tsv",
+                   "t:{OUTPUT}/MaAsLin_INPUT/MODULE.tsv t:{OUTPUT}/MaAsLin_INPUT/OTU.tsv"], alias=alias)
 
 # ---------------------------------------------------------------
 # tasks: association testing using MaAsLin 
