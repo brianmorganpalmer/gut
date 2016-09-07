@@ -30,9 +30,9 @@ $ pip install humann2
 $ pip install halla
 $ pip install qiime
 $ pip install biom-format
+$ R -e "install.packages(c('agricolae', 'gam', 'gamlss', 'gbm', 'glmnet', 'inlinedocs', 'logging', 'MASS', 'nlme', 'optparse', 'outliers', 'penalized', 'pscl', 'robustbase', 'pheatmap'), repos='http://cran.r-project.org')"
 $ wget https://bitbucket.org/biobakery/maaslin/downloads/Maaslin_0.0.4.tar.gz
 $ R CMD INSTALL Maaslin_0.0.4.tar.gz
-$ R -e "install.packages(c('agricolae', 'gam', 'gamlss', 'gbm', 'glmnet', 'inlinedocs', 'logging', 'MASS', 'nlme', 'optparse', 'outliers', 'penalized', 'pscl', 'robustbase', 'pheatmap'), repos='http://cran.r-project.org')"
 ```
 
 ## Input data ##
