@@ -27,8 +27,7 @@ alias = {
     "PICRUSt_RESULT":"ag_10k_fecal_kegg.biom",
     "OTU_BIOM":"ag_10k_fecal.biom", 
     "SAMPLE_IDS": "single_ids_10k.txt",
-    "METADATA":"ag_10k_fecal.txt",
-    "MyR": "/usr/bin/R"
+    "METADATA":"ag_10k_fecal.txt"
 }
 
 # ---------------------------------------------------------------
@@ -88,10 +87,13 @@ def task_prepare_data_tables():
 # ---------------------------------------------------------------
 # tasks: association testing using MaAsLin 
 # ---------------------------------------------------------------
-def task_test_association():
-    return dodict(["{MyR} CMD BATCH --vanila d:utils/test_associations.R"], alias=alias)
-    #return dodict(["{MyR} CMD BATCH  --vanilla d:./utils/test_associations.R d:{OUTPUT}/MODULE.tsv",
-    #               "d:{OUTPUT}/MODULE d:{INPUT}/maaslin_config/masslin_config_module.txt"], alias=alias)
+def task_test_association_MAASLIN_MODULE():
+    return dodict(["Rscript --vanilla d:utils/test_associations.R d:{OUTPUT}/MaAsLin_INPUT/MODULE.tsv",
+                   "d:{INPUT}/maaslin_config/maaslin_config_module.txt t:{OUTPUT}/MaAsLin_OUTPUT_MODULE"], alias=alias)
+
+def task_test_association_MAASLIN_OTU():
+    return dodict(["Rscript --vanilla d:utils/test_associations.R d:{OUTPUT}/MaAsLin_INPUT/OTU.tsv",
+                   "d:{INPUT}/maaslin_config/maaslin_config_otu.txt t:{OUTPUT}/MaAsLin_OUTPUT_OTU"], alias=alias)
 
 # ---------------------------------------------------------------
 # tasks: association testing using HAllA 
@@ -111,7 +113,7 @@ def task_test_association_HAllA_MODULE():
 # tasks: Plot results
 # ---------------------------------------------------------------
 def task_plot_MaAsLin_association():
-    return dodict(["{MyR} CMD BATCH --vanila d:utils/plot.R" ],alias=alias )
+    return dodict(["Rscript --vanilla d:utils/plot.R" ],alias=alias )
 
 def task_plot_HAllA_OTU_association():
     return dodict(["hallagram {OUTPUT}/HAllA_OUTPUT_OTU/similarity_table.txt {OUTPUT}/HAllA_OUTPUT_OTU/hypotheses_tree.txt",
