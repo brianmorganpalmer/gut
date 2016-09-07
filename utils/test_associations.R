@@ -8,10 +8,6 @@ if (length(args)<3){
 }
 
 Maaslin(args[1], args[3], strInputConfig=args[2], dSignificanceLevel =.1)#, fZeroInflated = TRUE
-#Maaslin('./output/MaAsLin_INPUT/MODULE.tsv', './output/MaAsLin_OUTPUT_MODULE',
-#        strInputConfig='./input/maaslin_config/maaslin_config_module.txt', dSignificanceLevel =.1)#, fZeroInflated = TRUE
-#Maaslin('./output/MaAsLin_INPUT/OTU.tsv', './output/MaAsLin_OUTPUT_OTU',
-#        strInputConfig='./input/maaslin_config/maaslin_config_otu.txt', dSignificanceLevel =.1)#, fZeroInflated = TRUE
 
 for(i in 1: length(dev.list()))
   try(dev.off(), silent=TRUE)
