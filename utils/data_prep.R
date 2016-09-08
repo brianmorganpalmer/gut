@@ -1,14 +1,14 @@
 #!/usr/bin/env Rscript
 args = commandArgs(trailingOnly=TRUE)
-args[1]= './input/single_ids_10k.txt'
-args[2] = './output/summed_AG.txt'
-args[3] = './output/humann2_pathabundance_names.tsv'
-args[4] = './input/ag_10k_fecal.txt'
-args[5] = './output/HAllA_INPUT/HAllA_Metadata.tsv'
-args[6] = './output/HAllA_INPUT/HAllA_Module.tsv'
-args[7] = './output/HAllA_INPUT/HAllA_OTU.tsv'
-args[8] = './output/MaAsLin_INPUT/MODULE.tsv'
-args[9] = './output/MaAsLin_INPUT/OTU.tsv'
+#args[1]= './input/single_ids_10k.txt'
+#args[2] = './output/summed_AG.txt'
+#args[3] = './output/humann2_pathabundance_names.tsv'
+#args[4] = './input/ag_10k_fecal.txt'
+#args[5] = './output/HAllA_INPUT/HAllA_Metadata.tsv'
+#args[6] = './output/HAllA_INPUT/HAllA_Module.tsv'
+#args[7] = './output/HAllA_INPUT/HAllA_OTU.tsv'
+#args[8] = './output/MaAsLin_INPUT/MODULE.tsv'
+#args[9] = './output/MaAsLin_INPUT/OTU.tsv'
 # This script gets the ids of samples , OTU table and Module abundance table and
 # genertes two clean tables of OTU and Modules as input for MaAsLin
 
