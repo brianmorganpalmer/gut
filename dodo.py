@@ -114,7 +114,9 @@ def task_test_association_HAllA_MODULE():
 # tasks: Plot results
 # ---------------------------------------------------------------
 def task_plot_MaAsLin_association():
-    return dodict(["Rscript --vanilla d:utils/plot.R" ],alias=alias )
+    return dodict(["Rscript --vanilla d:utils/plot.R d:{OUTPUT}/MaAsLin_OUTPUT_OTU/OTU.txt",
+                   "t:{OUTPUT}/MaAsLin_OUTPUT_OTU/OTU.pdf d:{OUTPUT}/MaAsLin_OUTPUT_MODULE/MODULE.txt",
+                   "t:{OUTPUT}/MaAsLin_OUTPUT_MODULE/MODULE.pdf"],alias=alias )
 
 def task_plot_HAllA_OTU_association():
     return dodict(["hallagram {OUTPUT}/HAllA_OUTPUT_OTU/similarity_table.txt {OUTPUT}/HAllA_OUTPUT_OTU/hypotheses_tree.txt",
