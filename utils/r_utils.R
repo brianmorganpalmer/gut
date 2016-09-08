@@ -66,7 +66,7 @@ maaslin_heatmap <- function(maaslin_output, output_file = "pheatmap.pdf", title 
             border_color = border_color,
             color = color,
             display_numbers = matrix(ifelse(a > 0.0, "+", ifelse(a < 0.0, "|", "")),  nrow(a)))
-  dev.off()
+  try(temp<-dev.off(), silent=TRUE)
 }
 
 pcl.merge_slurmlog_humann2_log<- function(slurm_log_file ='/Users/rah/Documents/HMP/metadata/performance_humann2_hmp1_II.txt', 
