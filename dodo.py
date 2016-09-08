@@ -89,12 +89,12 @@ def task_prepare_data_tables():
 # tasks: association testing using MaAsLin 
 # ---------------------------------------------------------------
 def task_test_association_MAASLIN_MODULE():
-    return dodict(["Rscript --vanilla d:utils/test_associations.R d:{OUTPUT}/MaAsLin_INPUT/MODULE.tsv",
-                   "d:{INPUT}/maaslin_config/maaslin_config_module.txt t:{OUTPUT}/MaAsLin_OUTPUT_MODULE"], alias=alias)
+    return dodict(["sh d:utils/test_associations.sh d:{OUTPUT}/MaAsLin_INPUT/MODULE.tsv",
+                   "d:{INPUT}/maaslin_config/maaslin_config_module.txt t:{OUTPUT}/MaAsLin_OUTPUT_MODULE/MODULE.txt"], alias=alias)
 
 def task_test_association_MAASLIN_OTU():
-    return dodict(["Rscript --vanilla d:utils/test_associations.R d:{OUTPUT}/MaAsLin_INPUT/OTU.tsv",
-                   "d:{INPUT}/maaslin_config/maaslin_config_otu.txt t:{OUTPUT}/MaAsLin_OUTPUT_OTU"], alias=alias)
+    return dodict(["sh d:utils/test_associations.sh d:{OUTPUT}/MaAsLin_INPUT/OTU.tsv",
+                   "d:{INPUT}/maaslin_config/maaslin_config_otu.txt t:{OUTPUT}/MaAsLin_OUTPUT_OTU/OTU.txt"], alias=alias)
 
 # ---------------------------------------------------------------
 # tasks: association testing using HAllA 
