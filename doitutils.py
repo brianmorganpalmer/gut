@@ -43,14 +43,11 @@ def clean_targets( *targets ):
 
 def status( query ):
     try:
-        status = ""
         cmdstring = "ls -lR ./{}".format( query )
-        cmd = subprocess.Popen( cmdstring, shell=True, stdout=subprocess.PIPE )
-        for line in cmd.stdout:
-            status += line
-        return status
-    except:
-        return ""
+        folder_status = subprocess.check_output(cmdstring, shell=True, stderr=subprocess.STDOUT)
+    except subprocess.CalledProcessError:
+        folder_status = ""
+    return folder_status
 
 # ---------------------------------------------------------------
 # convert formatted string to doit dict
