@@ -119,15 +119,15 @@ def task_plot_MaAsLin_association():
                    "t:{OUTPUT}/MaAsLin_OUTPUT_MODULE/MODULE.pdf"],alias=alias )
 
 def task_plot_HAllA_OTU_association():
-    return dodict(["hallagram {OUTPUT}/HAllA_OUTPUT_OTU/similarity_table.txt {OUTPUT}/HAllA_OUTPUT_OTU/hypotheses_tree.txt",
-                   "{OUTPUT}/HAllA_OUTPUT_OTU/associations.txt",
-                   "--cmap Reds --outfile {OUTPUT}/HAllA_OUTPUT_OTU/hallagram_strongest_50.pdf --strongest 50",
+    return dodict(["hallagram d:{OUTPUT}/HAllA_OUTPUT_OTU/similarity_table.txt d:{OUTPUT}/HAllA_OUTPUT_OTU/hypotheses_tree.txt",
+                   "d:{OUTPUT}/HAllA_OUTPUT_OTU/associations.txt",
+                   "--cmap Reds --outfile t:{OUTPUT}/HAllA_OUTPUT_OTU/hallagram_strongest_50.pdf --strongest 50",
                    "--similarity NMI --axlabels \"Metadata\" \"OTU\"" ],alias=alias )
 
 def task_plot_HAllA_Module_association():
-    return dodict(["hallagram {OUTPUT}/HAllA_OUTPUT_Module/similarity_table.txt {OUTPUT}/HAllA_OUTPUT_Module/hypotheses_tree.txt",
-                   "{OUTPUT}/HAllA_OUTPUT_Module/associations.txt",
-                   "--cmap Reds --outfile {OUTPUT}/HAllA_OUTPUT_Module/hallagram_strongest_50.pdf --strongest 50",
+    return dodict(["hallagram d:{OUTPUT}/HAllA_OUTPUT_Module/similarity_table.txt d:{OUTPUT}/HAllA_OUTPUT_Module/hypotheses_tree.txt",
+                   "d:{OUTPUT}/HAllA_OUTPUT_Module/associations.txt",
+                   "--cmap Reds --outfile t:{OUTPUT}/HAllA_OUTPUT_Module/hallagram_strongest_50.pdf --strongest 50",
                    "--similarity NMI --axlabels \"Metadata\" \"Metabolomic pathway modules\"" ],alias=alias )
 '''
 def task_plot_GraPhlAn():
