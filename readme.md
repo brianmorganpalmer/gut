@@ -21,29 +21,19 @@ This is a pipeline for American Gut Project Analysis.
 8. [macqiime](http://www.wernerlab.org/software/macqiime/macqiime-installation) for Mac OS or [QIIME](http://qiime.org) for Linux OS
 9. [BIOM-Format](http://biom-format.org)
 
-After installing R and Python, run the following commands to install the other dependencies. First install pip if it was not included with your Python install.
-
-```
-$ pip install configparser==3.5.0b2
-$ pip install doit==0.29.0
-$ pip install numpy future matplotlib==1.4.3 mock nose h5py
-$ pip install humann2
-$ pip install halla
-$ pip install qiime
-$ pip install biom-format
-$ R -e "install.packages(c('agricolae', 'gam', 'gamlss', 'gbm', 'glmnet', 'inlinedocs', 'logging', 'MASS', 'nlme', 'optparse', 'outliers', 'penalized', 'pscl', 'robustbase', 'pheatmap'), repos='http://cran.r-project.org')"
-$ wget https://bitbucket.org/biobakery/maaslin/downloads/Maaslin_0.0.4.tar.gz
-$ R CMD INSTALL Maaslin_0.0.4.tar.gz
-```
-
 ## Installation ##
 
-1. Install all the dependencies 
-2. Download and decompress the american gut repository
+1. Download and decompress the american gut repository
 
     a. Download the american_gut repository: [american_gut.tar.gz](https://bitbucket.org/biobakery/american_gut/get/tip.tar.gz)
 
     b. Decompress the american_gut repository: ``$ tar zxvf american_gut.tar.gz``
+
+2. Install the required software dependencies
+
+    a. Run the script provided to automatically install dependencies: ``$ sh -x american_gut/install_requirements.sh``
+
+    b. Alternatively, you can install the dependencies manually.
 
 3. Add the HUMAnN1 KEGG pathways databases to the input folder 
 
