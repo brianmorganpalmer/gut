@@ -4,8 +4,8 @@ from doitutils import dodict, check
 # Requirements:
 ## HUMAnN2 >= 8.0
 ## HAllA >= 0.6.14
-## R with maaslin, gamlss, and pheatmap packages
-## Macqiime
+## R with maaslin, gamlss, ggplot2, cowplot, and pheatmap packages
+## QIIME
 # ---------------------------------------------------------------
 
 
@@ -33,8 +33,6 @@ alias = {
 # ---------------------------------------------------------------
 # tasks: humann2 runs for getting metabolomic modules
 # ---------------------------------------------------------------
-def task_load_macqiime():
-    return dodict(["echo \"!!!Please load macqiime in your terminal before doit if the next task fails!!!\""],clean=True, alias=alias)
 
 def task_split_kegg_biom():
     return dodict(["humann2_split_table --input", 
@@ -62,7 +60,6 @@ def task_humann2_rename_modules():
 def task_filter_otus_from_otu_table():
     return dodict(["filter_otus_from_otu_table.py -i d:{INPUT}/{OTU_BIOM} ",
                     "-s 5 -n 3 -o t:{OUTPUT}/OTU.biom"], alias=alias)
- 
 def task_summarize_taxa():
     return dodict(["summarize_taxa.py -i d:{OUTPUT}/OTU.biom -o T:{OUTPUT}/AG_taxa -L 2,3,4,5,6,7 "], clean=True, alias=alias) 
 
