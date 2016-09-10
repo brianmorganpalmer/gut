@@ -17,7 +17,7 @@ pip install qiime
 pip install biom-format
 
 # Install required R packages, first installing Maaslin dependencies and pheatmap
-R -e "install.packages(c('agricolae', 'gam', 'gamlss', 'gbm', 'glmnet', 'inlinedocs', 'logging', 'MASS', 'nlme', 'optparse', 'outliers', 'penalized', 'pscl', 'robustbase', 'pheatmap'), repos='http://cran.r-project.org')"
+R -e "install.packages(c('agricolae', 'gam', 'gamlss', 'gbm', 'glmnet', 'inlinedocs', 'logging', 'MASS', 'nlme', 'optparse', 'outliers', 'penalized', 'pscl', 'robustbase', 'pheatmap', 'ggplot2', 'cowplot'), repos='http://cran.r-project.org')"
 wget https://bitbucket.org/biobakery/maaslin/downloads/Maaslin_0.0.4.tar.gz
 R CMD INSTALL Maaslin_0.0.4.tar.gz
 rm Maaslin_0.0.4.tar.gz

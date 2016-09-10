@@ -2,11 +2,18 @@
 #  MaAsLin  Output HEATMAP
 pcl.sub <- function(x){
   #return(x)
-  x <- strsplit(x, "__", fixed= TRUE)
+  x <- strsplit(x, "_", fixed= TRUE)
   l <- length(x[[1]])
-  x <- x[[1]][l][1]
+  x <- x[[1]][nchar(x[[1]]) > 2 ]
+  l <- length(x)
+  if (nchar(x[l-1]) < 5){
+    x <- paste(paste(x[l-2], x[l-1]), x[l])
+  }else{x <- paste(x[l-1], x[l])}
+  
+  #print(x)
   x <- gsub("__", "_", x)
   x <- gsub("__", "_", x)
+  x <- gsub("_", " ", x)
   #x <- paste(paste(x[[1]][l-2][1], x[[1]][l-1][1]), x[[1]][l][1])
   #x <- gsub("__", "_", x)
   #x <- gsub("__", "_", x)
@@ -15,86 +22,117 @@ pcl.sub <- function(x){
   #  x <- 'Tissierellaceae_g_1_68'
   return(x)
 }
-maaslin_heatmap <- function(maaslin_output, output_file = "pheatmap.pdf", title = "", cell_value = "Q.value", data_label = 'Data', metadata_label = 'Metadata',
-                   border_color = "grey93", color = colorRampPalette(c("blue","grey90", "red"))(500)) {#)
-  
-  library('pheatmap')
-  # read MaAsLin output
-  df <- read.table( maaslin_output,
-                    header = TRUE, sep = "\t", fill = TRUE, comment.char = "" , check.names = FALSE)
+convert_maaslin_output2matrix <- function(df){
   metadata <- df$Variable
+  #print (df$Variable)
+  all_metadata <-   c ("Subject_diet",
+                       "Breast_feeding",
+                       "Temperature",
+                       "Introitus_pH",
+                       "Posterior_fornix_pH",
+                       "Gender",
+                       "Age",
+                       "Ethnicity",
+                       "Systolic_blood_pressure",
+                       "Diastolic_blood_pressure",
+                       "Pulse",
+                       "Subjects_having_given_birth",
+                       "BMI",
+                       "VISNO",
+                       "Study_day_processed",
+                       "Sequencing_center",  
+                       "Clinical_center",  
+                       "Number_of_quality_bases",
+                       "Percent_of_Human_Reads",
+                       "WMSPhase"
+  )
+  needed_metadata <-c ("Subject_diet",
+                       "Breast_feeding",
+                       "Subjects_having_given_birth",
+                       "Gender",
+                       "BMI",
+                       "Age",
+                       "Ethnicity",
+                       "Introitus_pH",
+                       "Posterior_fornix_pH",
+                       "Temperature",
+                       "Systolic_blood_pressure",
+                       "Diastolic_blood_pressure",
+                       "Pulse"
+  )
+  needed_metadata_names <-c ("Subject diet",
+                             "Breast feeding",
+                             "Subjects having given birth",
+                             "Gender",
+                             "BMI",
+                             "Age",
+                             "Ethnicity",
+                             "Introitus pH",
+                             "Posterior fornix pH",
+                             "Temperature",
+                             "Systolic blood pressure",
+                             "Diastolic blood pressure",
+                             "Pulse"
+  )
+  
   data <- df$Feature
   value <- NA
-  # values to use for coloring the heatmap
-  if (cell_value == "P.value"){
-    value <- -log(df$P.value)*sign(df$Coefficient)
-    value <- pmax(-10, pmin(10, value))
-  }else if(cell_value == "Q.value"){
-    value <- -log(df$Q.value)*sign(df$Coefficient)
-    value <- pmax(-10, pmin(10, value))
-  }else if(cell_value == "Coefficient"){
-    value <- df$Coefficient
-  }
+  simlarity_threshold = .005
+  df$Coefficient[abs(df$Coefficient) < simlarity_threshold] <- 0
+  value <- -log(df$Q.value)*sign(df$Coefficient)
+  value <- pmax(-10, pmin(10, value))
   n <- length(unique(metadata))
   m <- length(unique(data))
   a = matrix(0, nrow=n, ncol=m)
   for (i in 1:length(metadata)){
-      #if (abs(a[as.numeric(metadata)[i], as.numeric(metadata)[i]]) >= abs(value[i]))
-      #    next
-      a[as.numeric(metadata)[i], as.numeric(data)[i]] <- value[i]
+    a[as.numeric(metadata)[i], as.numeric(data)[i]] <- value[i]
   }
   rownames(a) <- levels(metadata)
   colnames(a) <- levels(data)
-  
   colnames(a) <-  sapply(colnames(a), pcl.sub )
-  #rownames(a) <-  sapply(rownames(a), pcl.sub )
-  pdf(file=output_file, height = length(rownames(a))/5+8, width = length(colnames(a))/5+5)
+  a <- a[, colSums(a != 0, na.rm = TRUE) > 0, drop=F]
+  hc <- hclust(dist(t(a)), method="single")
+  a <- a[,hc$order]
   
-  pheatmap(a, cellwidth = NA, cellheight = NA,   # changed to 3
-            main = title,
-            treeheight_row=0,
-            treeheight_column=0,
-            kmeans_k = NA,
-            border=TRUE,
-            show_rownames = T, show_colnames = T,
-            scale="none",
-            #clustering_method = "complete",
-            cluster_rows = TRUE, cluster_cols = TRUE,
-            clustering_distance_rows = "euclidean", 
-            clustering_distance_cols = "euclidean",
-            legend=TRUE,
-            border_color = border_color,
-            color = color,
-            display_numbers = matrix(ifelse(a > 0.0, "+", ifelse(a < 0.0, "|", "")),  nrow(a)))
-  try(temp<-dev.off(), silent=TRUE)
+  
+  return (a)
+}
+maaslin_heatmap <- function(title = "Metadata vs. OTUs", maaslin_output='./output/MaAsLin_OUTPUT_OTU/OTU.txt') {
+  
+  library(pheatmap)
+  cell_value = "Q.value"
+  data_label = 'Data'
+  metadata_label = 'Metadata'
+  border_color = "grey93"
+  color = colorRampPalette(c("blue","whitesmoke", "red"))(51) #whitesmoke
+  mat <- NA
+  
+  df_1 <- read.table( './output/MaAsLin_OUTPUT_OTU/OTU.txt',
+                      header = TRUE, sep = "\t", fill = TRUE, comment.char = "" , check.names = FALSE)
+  mat <- convert_maaslin_output2matrix(df_1)
+  pdf(file="pheatmp.pdf", height = 25, width = 10)
+
+  plot_result <- pheatmap(mat, cellwidth = 18, cellheight = 18,   # changed to 3
+                          main = title,
+                          fontsize = 15,
+                          treeheight_row=0,
+                          treeheight_column=0,
+                          kmeans_k = NA,
+                          border=TRUE,
+                          show_rownames = T, show_colnames = T,
+                          scale="none",
+                          #clustering_method = "complete",
+                          cluster_rows = F, cluster_cols = F,
+                          treeheight_col = 0, 
+                          clustering_distance_rows = "euclidean", 
+                          clustering_distance_cols = "euclidean",
+                          legend=T,
+                          border_color = border_color,
+                          color = color,
+                          display_numbers = matrix(ifelse(mat > 0.0, "+", ifelse(mat < 0.0, "-", "")),  nrow(mat)))
+  return (plot_result)
 }
 
-pcl.merge_slurmlog_humann2_log<- function(slurm_log_file ='/Users/rah/Documents/HMP/metadata/performance_humann2_hmp1_II.txt', 
-                               humann2_log_file ='/Users/rah/Documents/HMP/metadata/hmp1-II_humann2_logs.pcl'){
-  # Merge HUMAnN2 log and SLURM log for HMP1-II samples
-  performance_humann2_log <- read.table( humann2_log_file, header = TRUE, row.names = 1,sep = "\t", fill = FALSE, comment.char = "" , check.names = FALSE)
-  colnames(performance_humann2_log) <- gsub(".log", "", colnames(performance_humann2_log))
-  performance_slurm_log <- read.table( slurm_log_file, header = TRUE, row.names = 1,sep = "\t", fill = FALSE, comment.char = "" , check.names = FALSE)
-  performance_slurm_log <- t(performance_slurm_log)
-  metadata <- read.table( '/Users/rah/Documents/HMP/metadata/hmp1-II_public_metadata.pcl', quote = NULL, header = TRUE, row.names = 1, sep = "\t", fill = FALSE, comment.char = "" , check.names = FALSE)
-  performance_humann2_log <- performance_humann2_log[rownames(performance_humann2_log), order(colnames(performance_slurm_log))]
-  performance_slurm_log <- performance_slurm_log[rownames(performance_slurm_log), order(colnames(performance_slurm_log))]
-  metadata <- metadata[,metadata["SRS",]!="#N/A" ]
-  metadata <- metadata[, order(metadata["SRS",])]
-  colnames(performance_slurm_log)
-  colnames(metadata) <-as.matrix(metadata["SRS",])
-  needed.metadata <- metadata[, colnames(metadata) %in% colnames(performance_slurm_log)]
-  slurm_humann2_hmp1_ii_log <- rbind(as.matrix(needed.metadata),as.matrix(performance_slurm_log),as.matrix(performance_humann2_log))
-  write.table( slurm_humann2_hmp1_ii_log, '/Users/rah/Documents/HMP/metadata/slurm_humann2_hmp1_ii_log.txt', sep = "\t", eol = "\n", quote = F, col.names = NA, row.names = T)
-  return (slurm_humann2_hmp1_ii_log) 
-}
-## Edit body of pheatmap:::draw_colnames, customizing it to your liking
-#draw_colnames_45 <- function (coln, ...) {
-#  m = length(coln)
-#  x = (1:m)/m - 1/2/m
-#  grid.text(coln, x = x, y = unit(0.96, "npc"), vjust = .5, 
-#            hjust = 0, rot = 270, gp = gpar(...)) ## Was 'hjust=0' and 'rot=270'
-#}
 pcl.combine <- function(data, metadata, output='output_combine'){
   metadata <- read.csv( metadata, quote = NULL, header = TRUE, sep = "\t", fill = FALSE, comment.char = "" , check.names = FALSE)
   bugs <-pcl.read(data)

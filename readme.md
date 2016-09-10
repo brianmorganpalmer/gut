@@ -18,7 +18,7 @@ This is a pipeline for American Gut Project Analysis.
 5. [HAllA](http://huttenhower.sph.harvard.edu/halla)
 6. [MaAsLin](https://bitbucket.org/biobakery/maaslin)
 7. pheatmap
-8. [macqiime](http://www.wernerlab.org/software/macqiime/macqiime-installation) for Mac OS or [QIIME](http://qiime.org) for Linux OS
+8. [QIIME](http://qiime.org)
 9. [BIOM-Format](http://biom-format.org)
 
 ## Installation ##
@@ -69,8 +69,7 @@ Two KEGG database files should also be added to the input directory:
 ## How to run ##
 
 1. Change directories into the american_gut folder: ``$ cd biobakery-american_gut``
-2. Run MacQIIME if on a Mac OS and QIIME is not in your system path (this step can be skipped for all other cases): `` $ macqiime``
-3. Run doit to start the workflow: ``$ doit``
+2. Run doit to start the workflow: ``$ doit``
 
 ## Output ##
 
