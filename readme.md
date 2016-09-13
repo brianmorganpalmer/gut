@@ -20,6 +20,7 @@ This is a pipeline for American Gut Project Analysis.
 7. pheatmap
 8. [QIIME](http://qiime.org)
 9. [BIOM-Format](http://biom-format.org)
+10. [h5py](www.h5py.org/)
 
 ## Installation ##
 

@@ -15,6 +15,7 @@ pip install humann2
 pip install halla
 pip install qiime
 pip install biom-format
+pip install h5py
 
 # Install required R packages, first installing Maaslin dependencies and pheatmap
 R -e "install.packages(c('agricolae', 'gam', 'gamlss', 'gbm', 'glmnet', 'inlinedocs', 'logging', 'MASS', 'nlme', 'optparse', 'outliers', 'penalized', 'pscl', 'robustbase', 'pheatmap', 'ggplot2', 'cowplot'), repos='http://cran.r-project.org')"
