@@ -25,7 +25,7 @@ alias = {
     "INPUT": "input",
     "OUTPUT": "output",
     "PICRUSt_RESULT":"ag_10k_fecal_kegg.biom",
-    "OTU_BIOM":"ag_10k_fecal.biom", 
+    "OTU_BIOM":"ag.pos.min10.withtax.bloom15.biom",#"ag_10k_fecal.biom", 
     "SAMPLE_IDS": "single_ids_10k.txt",
     "METADATA":"ag_10k_fecal.txt"
 }
@@ -33,7 +33,7 @@ alias = {
 # ---------------------------------------------------------------
 # tasks: humann2 runs for getting metabolomic modules
 # ---------------------------------------------------------------
-
+'''
 def task_split_kegg_biom():
     return dodict(["humann2_split_table --input", 
                    "d:{INPUT}/{PICRUSt_RESULT} --output T:{OUTPUT}/HUMAnN2_PICRUSt_OUTPUT"],clean=True, alias=alias)
@@ -52,7 +52,7 @@ def task_humann2_rename_modules():
                    "--input d:{OUTPUT}/humann2_pathabundance.tsv",
                     "--names kegg-module --simplify",
                     "--output t:{OUTPUT}/humann2_pathabundance_names.tsv"], alias=alias)
-    
+'''    
 # ---------------------------------------------------------------
 # tasks: qiime runs to genrate and filter OTUs
 # ---------------------------------------------------------------
@@ -66,7 +66,7 @@ def task_summarize_taxa():
 def task_merge_otu_tables():
     return dodict(["merge_otu_tables.py -i", 
                     "{OUTPUT}/AG_taxa/OTU_L2.biom,{OUTPUT}/AG_taxa/OTU_L3.biom,{OUTPUT}/AG_taxa/OTU_L4.biom,{OUTPUT}/AG_taxa/OTU_L5.biom,{OUTPUT}/AG_taxa/OTU_L6.biom", 
-                    "-o t:{OUTPUT}/summed_AG.biom"], alias=alias) 
+                    "-o t:{OUTPUT}/summed_AG.biom"], clean=True, alias=alias) 
 
 def task_convert_biom2tsv():
     return dodict(["biom convert -i d:{OUTPUT}/summed_AG.biom",
